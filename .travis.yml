@@ -1,0 +1,23 @@
+dist: bionic
+language: node_js
+node_js: "16"
+
+services:
+  - docker
+
+branches:
+  only:
+    - main
+
+jobs:
+  include:
+    - stage: Frontend Deployment
+      name: "Run Frontend Deployment"
+      script:
+        - docker build -t aws-react-app .
+      deploy:
+        provider: script
+        script:
+          - bash ./deploy.sh
+        on:
+          branch: main
